@@ -1125,3 +1125,51 @@ test('i18n: Leverage English (default) i18n titleFormat when translation key for
     input.focus();
     equal(picker.find('.datepicker-days thead .datepicker-switch').text(), 'April 2015', 'Title is in default format: April 2015');
 }));
+
+test("Parse invalid: tried to parse invalid date (current default behaviour)", function(){
+    var input = $('<input />')
+                .appendTo('#qunit-fixture')
+                .val('2012-03-50')
+                .datepicker({
+                    format: 'yyyy-mm-dd'
+                }),
+        dp = input.data('datepicker'),
+        picker = dp.picker, target;
+
+        input.focus();
+        equal(picker.find('.datepicker-days thead .datepicker-switch').text(), 'April 2012', 'Title is "April 2012"');
+});
+
+test("Parse invalid: tried to parse invalid date (current default behaviour)", function(){
+    var input = $('<input />')
+                .appendTo('#qunit-fixture')
+                .val('2012-03-50')
+                .datepicker({
+                    format: 'yyyy-mm-dd',
+                    parseInvalid: false
+                }),
+        dp = input.data('datepicker'),
+        picker = dp.picker, target;
+
+        var today = new Date;
+        var month = new Array();
+        month[0] = "January";
+        month[1] = "February";
+        month[2] = "March";
+        month[3] = "April";
+        month[4] = "May";
+        month[5] = "June";
+        month[6] = "July";
+        month[7] = "August";
+        month[8] = "September";
+        month[9] = "October";
+        month[10] = "November";
+        month[11] = "December";
+
+        var monthName = month[today.getMonth()];
+
+        var currentDate = monthName + ' ' + today.getFullYear();
+
+        input.focus();
+        equal(picker.find('.datepicker-days thead .datepicker-switch').text(), currentDate, 'Title is "' + currentDate + '"');
+});
