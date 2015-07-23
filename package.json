@@ -1,7 +1,7 @@
 {
   "name": "bootstrap-datepicker",
   "description": "A datepicker for Bootstrap 3 forked by Bit Zesty",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0",
   "license": "Apache-2.0",
   "keywords": [
     "datepicker",
@@ -18,7 +18,7 @@
     "url": "https://github.com/bitzesty/bootstrap-datepicker.git"
   },
   "dependencies": {
-    "jquery" : ">=1.7.1"
+    "jquery": ">=1.7.1"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
