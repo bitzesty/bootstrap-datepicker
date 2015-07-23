@@ -1,11 +1,11 @@
 /* =========================================================
  * bootstrap-datepicker.js
- * Repo: https://github.com/eternicode/bootstrap-datepicker/
- * Demo: http://eternicode.github.io/bootstrap-datepicker/
- * Docs: http://bootstrap-datepicker.readthedocs.org/
- * Forked from http://www.eyecon.ro/bootstrap-datepicker
+ * Repo: https://github.com/bitzesty/bootstrap-datepicker/
+ * Demo: http://bitzesty.github.io/bootstrap-datepicker/
  * =========================================================
- * Started by Stefan Petre; improvements by Andrew Rowls + contributors
+ * Started by Stefan Petre;
+ * improvements by Andrew Rowls + contributors
+ * Now forked and maintained by Bit Zesty.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -233,7 +233,7 @@
 					if (o.startDate instanceof Date)
 						o.startDate = this._local_to_utc(this._zero_time(o.startDate));
 					else
-						o.startDate = DPGlobal.parseDate(o.startDate, format, o.language);
+						o.startDate = DPGlobal.parseDate(o.startDate, format, o.language, o.parseInvalid);
 				}
 				else {
 					o.startDate = -Infinity;
@@ -244,7 +244,7 @@
 					if (o.endDate instanceof Date)
 						o.endDate = this._local_to_utc(this._zero_time(o.endDate));
 					else
-						o.endDate = DPGlobal.parseDate(o.endDate, format, o.language);
+						o.endDate = DPGlobal.parseDate(o.endDate, format, o.language, o.parseInvalid);
 				}
 				else {
 					o.endDate = Infinity;
@@ -268,11 +268,11 @@
 			o.datesDisabled = o.datesDisabled||[];
 			if (!$.isArray(o.datesDisabled)) {
 				var datesDisabled = [];
-				datesDisabled.push(DPGlobal.parseDate(o.datesDisabled, format, o.language));
+				datesDisabled.push(DPGlobal.parseDate(o.datesDisabled, format, o.language, o.parseInvalid));
 				o.datesDisabled = datesDisabled;
 			}
 			o.datesDisabled = $.map(o.datesDisabled,function(d){
-				return DPGlobal.parseDate(d, format, o.language);
+				return DPGlobal.parseDate(d, format, o.language, o.parseInvalid);
 			});
 
 			var plc = String(o.orientation).toLowerCase().split(/\s+/g),
@@ -780,7 +780,7 @@
 			}
 
 			dates = $.map(dates, $.proxy(function(date){
-				return DPGlobal.parseDate(date, this.o.format, this.o.language);
+				return DPGlobal.parseDate(date, this.o.format, this.o.language, this.o.parseInvalid);
 			}, this));
 			dates = $.grep(dates, $.proxy(function(date){
 				return (
@@ -1622,6 +1622,7 @@
 		datesDisabled: [],
 		endDate: Infinity,
 		forceParse: true,
+    parseInvalid: true,
 		format: 'mm/dd/yyyy',
 		keyboardNavigation: true,
 		language: 'en',
@@ -1696,7 +1697,7 @@
 			}
 			return {separators: separators, parts: parts};
 		},
-		parseDate: function(date, format, language){
+		parseDate: function(date, format, language, parseInvalid){
 			if (!date)
 				return undefined;
 			if (date instanceof Date)
@@ -1730,6 +1731,7 @@
 			}
 			parts = date && date.match(this.nonpunctuation) || [];
 			date = new Date();
+      var _this = this;
 			var parsed = {},
 				setters_order = ['yyyy', 'yy', 'M', 'MM', 'm', 'mm', 'd', 'dd'],
 				setters_map = {
@@ -1743,6 +1745,11 @@
 						if (isNaN(d))
 							return d;
 						v -= 1;
+
+            if (parseInvalid === false && (v < 0 || v > 11)) {
+              return undefined;
+            }
+
 						while (v < 0) v += 12;
 						v %= 12;
 						d.setUTCMonth(v);
@@ -1751,6 +1758,13 @@
 						return d;
 					},
 					d: function(d,v){
+            if (parseInvalid === false) {
+              var daysInMonth = _this.getDaysInMonth(d.getUTCFullYear(), d.getUTCMonth());
+              if (v < 1 || v > daysInMonth) {
+                return undefined;
+              }
+            }
+
 						return d.setUTCDate(v);
 					}
 				},
@@ -1795,9 +1809,15 @@
 					s = setters_order[i];
 					if (s in parsed && !isNaN(parsed[s])){
 						_date = new Date(date);
-						setters_map[s](_date, parsed[s]);
-						if (!isNaN(_date))
+						var t = setters_map[s](_date, parsed[s]);
+
+						if (!isNaN(_date)) {
 							date = _date;
+            }
+
+            if (t === undefined || isNaN(t)) {
+              return undefined;
+            }
 					}
 				}
 			}

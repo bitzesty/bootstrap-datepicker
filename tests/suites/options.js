@@ -1140,7 +1140,7 @@ test("Parse invalid: tried to parse invalid date (current default behaviour)", f
         equal(picker.find('.datepicker-days thead .datepicker-switch').text(), 'April 2012', 'Title is "April 2012"');
 });
 
-test("Parse invalid: tried to parse invalid date (current default behaviour)", function(){
+test("Parse invalid: when trying to parse invalid dates, show the current date", function(){
     var input = $('<input />')
                 .appendTo('#qunit-fixture')
                 .val('2012-03-50')
@@ -1170,6 +1170,18 @@ test("Parse invalid: tried to parse invalid date (current default behaviour)", f
 
         var currentDate = monthName + ' ' + today.getFullYear();
 
+        input.focus();
+        equal(picker.find('.datepicker-days thead .datepicker-switch').text(), currentDate, 'Title is "' + currentDate + '"');
+
+        input.blur();
+        input.val('2012-35-05');
+        input.data('datepicker').update();
+        input.focus();
+        equal(picker.find('.datepicker-days thead .datepicker-switch').text(), currentDate, 'Title is "' + currentDate + '"');
+
+        input.blur();
+        input.val('20124789-05-05');
+        input.data('datepicker').update();
         input.focus();
         equal(picker.find('.datepicker-days thead .datepicker-switch').text(), currentDate, 'Title is "' + currentDate + '"');
 });

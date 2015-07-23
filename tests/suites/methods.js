@@ -75,7 +75,7 @@ test('setUTCDate', function(){
 });
 
 test('setStartDate', function(){
-    var date_in = new Date(Date.UTC(2012, 3, 5)),
+    var date_in = new Date(2012, 3, 5),
         expected_date = date_in,
         returnedObject = this.dp.setStartDate(date_in);
     // ...
@@ -84,7 +84,7 @@ test('setStartDate', function(){
 });
 
 test('setEndDate', function(){
-    var date_in = new Date(Date.UTC(2012, 3, 5)),
+    var date_in = new Date(2012, 3, 5),
         expected_date = date_in,
         returnedObject = this.dp.setEndDate(date_in);
     // ...

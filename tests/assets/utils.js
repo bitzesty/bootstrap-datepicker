@@ -12,10 +12,10 @@ function format_date(date){
         s = date.getUTCSeconds(),
         l = date.getUTCMilliseconds();
     function z(i){return (i <= 9 ? '0'+i : i);}
-    return y+'-'+z(m)+'-'+z(d)+' '+z(h)+':'+z(i)+':'+z(s)+'.'+z(l);
+    return y+'-'+z(m)+'-'+z(d)+'';
 }
 
 
 function datesEqual(actual, expected, message){
-    QUnit.push(QUnit.equiv(actual, expected), format_date(actual), format_date(expected), message);
+    QUnit.push(QUnit.equiv(format_date(actual), format_date(expected)), format_date(actual), format_date(expected), message);
 }
