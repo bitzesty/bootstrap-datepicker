@@ -1,7 +1,7 @@
 {
   "name": "bootstrap-datepicker",
   "description": "A datepicker for Bootstrap 3 forked by Bit Zesty",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "license": "Apache-2.0",
   "keywords": [
     "datepicker",

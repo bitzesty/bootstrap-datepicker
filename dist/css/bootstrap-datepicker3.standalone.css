@@ -1,8 +1,9 @@
 /*!
- * Datepicker for Bootstrap v1.5.0-dev (https://github.com/eternicode/bootstrap-datepicker)
+ * Datepicker for Bootstrap v2.0.0 (https://github.com/bitzesty/bootstrap-datepicker)
  *
  * Copyright 2012 Stefan Petre
  * Improvements by Andrew Rowls
+ * Improvements by Bit Zesty
  * Licensed under the Apache License v2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  */
 .datepicker {
@@ -21,6 +22,7 @@
 .datepicker-dropdown {
   top: 0;
   left: 0;
+  padding: 4px;
 }
 .datepicker-dropdown:before {
   content: '';
@@ -53,18 +55,18 @@
 .datepicker-dropdown.datepicker-orient-right:after {
   right: 7px;
 }
-.datepicker-dropdown.datepicker-orient-top:before {
+.datepicker-dropdown.datepicker-orient-bottom:before {
   top: -7px;
 }
-.datepicker-dropdown.datepicker-orient-top:after {
+.datepicker-dropdown.datepicker-orient-bottom:after {
   top: -6px;
 }
-.datepicker-dropdown.datepicker-orient-bottom:before {
+.datepicker-dropdown.datepicker-orient-top:before {
   bottom: -7px;
   border-bottom: 0;
   border-top: 7px solid #999;
 }
-.datepicker-dropdown.datepicker-orient-bottom:after {
+.datepicker-dropdown.datepicker-orient-top:after {
   bottom: -6px;
   border-bottom: 0;
   border-top: 6px solid #fff;
@@ -112,6 +114,10 @@
   background: none;
   color: #999999;
   cursor: default;
+}
+.datepicker table tr td.highlighted {
+  background: #d9edf7;
+  border-radius: 0;
 }
 .datepicker table tr td.today,
 .datepicker table tr td.today:hover,
